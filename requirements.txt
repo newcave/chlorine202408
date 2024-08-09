@@ -1,0 +1,12 @@
+estreamlit
+#pandas
+#numpy
+matplotlib
+#matplotlib.pyplot
+seaborn
+statsmodels
+cartopy
+#statsmodels.api
+folium
+netCDF4
+#os
