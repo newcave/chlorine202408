@@ -69,3 +69,11 @@ plt.title('EPA and Two-phase Models of Residual Chlorine')
 plt.legend()
 plt.grid(True)
 st.pyplot(plt)
+
+# 결과가 범위 내에 있는지 여부를 체크
+if np.all((C_EPA >= C_EPA_low) & (C_EPA <= C_EPA_high)):
+    st.subheader("결과: 정상")
+    st.markdown("<h1 style='text-align: center; color: green;'>정상</h1>", unsafe_allow_html=True)
+else:
+    st.subheader("결과: 비정상")
+    st.markdown("<h1 style='text-align: center; color: red;'>비정상</h1>", unsafe_allow_html=True)
