@@ -1,12 +1,18 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image  # Image 모듈 임포트
 
 # 사용자 입력 받기
 st.title("잔류 염소 농도 예측 모델링 (EPA & Two-phase)")
 st.sidebar.header("모델 인풋 설정")
 
-im = Image.open("AI_Lab_logo.jpg")
+# 이미지 불러오기
+try:
+    im = Image.open("AI_Lab_logo.jpg")
+    st.sidebar.image(im, caption="AI Lab Logo")  # 사이드바에 이미지 표시
+except FileNotFoundError:
+    st.sidebar.write("Logo image not found.")  # 이미지가 없을 때의 처리
 
 DOC = st.sidebar.slider("DOC (mg/L)", 0.0, 10.0, 3.0)
 NH3 = st.sidebar.slider("surrogate var (mg/L)", 0.0, 5.0, 0.5)
