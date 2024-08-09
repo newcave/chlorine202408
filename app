@@ -1,0 +1,44 @@
+import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 사용자 입력 받기
+st.title("잔류 염소 농도 예측 모델링 (EPA & Two-phase)")
+st.sidebar.header("모델 입력값 설정")
+
+DOC = st.sidebar.slider("DOC (mg/L)", 0, 10.0, 3.0)
+NH3 = st.sidebar.slider("NH3 (mg/L)", 0, 10.0, 0.5)
+Cl0 = st.sidebar.slider("Cl0 (mg/L)", 0, 5.0, 2.0)
+Temp = st.sidebar.slider("Temperature (°C)", 0, 35.0, 20.0)
+max_time = st.sidebar.slider("시간 (hrs)", 1, 48, 24)
+
+# EPA 모델에서 k1, k2 계산
+k1_EPA = np.exp(-0.442 + 0.889 * np.log(DOC) + 0.345 * np.log(7.6 * NH3) - 1.082 * np.log(Cl0) + 0.192 * np.log(Cl0 / DOC))
+k2_EPA = np.exp(-4.817 + 1.187 * np.log(DOC) + 0.102 * np.log(7.6 * NH3) - 0.821 * np.log(Cl0) - 0.271 * np.log(Cl0 / DOC))
+
+# Two-phase 모델에서 A, k1, k2 계산
+A_Two_phase = np.exp(0.168 - 0.148 * np.log(Cl0 / DOC) + 0.29 * np.log(1) - 0.41 * np.log(Cl0) + 0.038 * np.log(1) + 0.0554 * np.log(NH3) + 0.185 * np.log(Temp))
+k1_Two_phase = np.exp(5.41 - 0.38 * np.log(Cl0 / DOC) + 0.274 * np.log(NH3) - 1.12 * np.log(Temp) + 0.05 * np.log(1) - 0.854 * np.log(7))
+k2_Two_phase = np.exp(-7.13 + 0.864 * np.log(Cl0 / DOC) + 2.63 * np.log(DOC) - 2.55 * np.log(Cl0) + 0.62 * np.log(1) + 0.16 * np.log(1) + 0.48 * np.log(NH3) + 1.03 * np.log(Temp))
+
+# 시간에 따른 농도 계산
+time_range = np.linspace(0, max_time, 100)
+
+# EPA 모델
+C_EPA = np.where(time_range <= 5,
+                 Cl0 * np.exp(-k1_EPA * time_range),
+                 Cl0 * np.exp(5 * (k2_EPA - k1_EPA)) * np.exp(-k2_EPA * time_range))
+
+# Two-phase 모델
+C_Two_phase = Cl0 * (A_Two_phase * np.exp(-k1_Two_phase * time_range) + (1 - A_Two_phase) * np.exp(-k2_Two_phase * time_range))
+
+# 그래프 그리기
+plt.figure(figsize=(10, 6))
+plt.plot(time_range, C_EPA, label='EPA Model')
+plt.plot(time_range, C_Two_phase, label='Two-phase Model')
+plt.xlabel('시간 (hrs)')
+plt.ylabel('잔류 염소 농도 (mg/L)')
+plt.title('잔류 염소 농도 예측')
+plt.legend()
+plt.grid(True)
+st.pyplot(plt)
