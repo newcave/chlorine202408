@@ -15,11 +15,11 @@ except FileNotFoundError:
 
 st.sidebar.header("모델 인풋 설정")
 
-DOC = st.sidebar.slider("DOC (mg/L)", 0.0, 10.0, 3.0)
+DOC = st.sidebar.slider("DOC (mg/L)", 0.0, 10.0, 5.0)
 NH3 = st.sidebar.slider("surrogate var (mg/L)", 0.0, 5.0, 0.5)
 Cl0 = st.sidebar.slider("현재농도 Cl0 (mg/L)", 0.0, 5.0, 1.5)
 Temp = st.sidebar.slider("Temperature (°C)", 0.0, 35.0, 20.0)
-max_time = st.sidebar.slider("최대예측시간 (hrs)", 1, 72, 24)
+max_time = st.sidebar.slider("최대예측시간 (hrs)", 1, 24, 4)
 
 # EPA 모델에서 k1, k2 계산
 k1_EPA = np.exp(-0.442 + 0.889 * np.log(DOC) + 0.345 * np.log(7.6 * NH3) - 1.082 * np.log(Cl0) + 0.192 * np.log(Cl0 / DOC))
