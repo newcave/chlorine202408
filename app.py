@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image  # Image 모듈 임포트
 
 # 사용자 입력 받기
-st.title("잔류 염소 농도 예측 모델링 (EPA & Two-phase)")
+st.title("잔류 염소 농도 예측 모델링기반 ML-based 이상예측 툴 (EPA & Two-phase)")
 
 # 이미지 불러오기
 try:
