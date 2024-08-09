@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # 사용자 입력 받기
 st.title("잔류 염소 농도 예측 모델링 (EPA & Two-phase)")
-st.sidebar.header("모델 입력값 설정")
+st.sidebar.header("모델 인풋 설정")
 
 DOC = st.sidebar.slider("DOC (mg/L)", 0.0, 50.0, 3.0)
 NH3 = st.sidebar.slider("NH3 (mg/L)", 0.0, 50.0, 0.5)
@@ -36,9 +36,9 @@ C_Two_phase = Cl0 * (A_Two_phase * np.exp(-k1_Two_phase * time_range) + (1 - A_T
 plt.figure(figsize=(10, 6))
 plt.plot(time_range, C_EPA, label='EPA Model')
 plt.plot(time_range, C_Two_phase, label='Two-phase Model')
-plt.xlabel('시간 (hrs)')
-plt.ylabel('잔류 염소 농도 (mg/L)')
-plt.title('잔류 염소 농도 예측')
+plt.xlabel('Time (hrs)')
+plt.ylabel('Residual Chlorine (mg/L)')
+plt.title('EPA-model-based Prediction of Clorine')
 plt.legend()
 plt.grid(True)
 st.pyplot(plt)
