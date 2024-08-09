@@ -1,4 +1,4 @@
-estreamlit
+streamlit
 #pandas
 #numpy
 matplotlib
