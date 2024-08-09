@@ -9,7 +9,7 @@ st.title("잔류 염소 농도 예측 모델링 (EPA & Two-phase)")
 # 이미지 불러오기
 try:
     im = Image.open("AI_Lab_logo.jpg")
-#    st.sidebar.image(im, caption="AI Lab Logo")  # 사이드바에 이미지 표시
+    st.sidebar.image(im, caption=" ")  # 사이드바에 이미지 표시
 except FileNotFoundError:
     st.sidebar.write("Logo image not found.")  # 이미지가 없을 때의 처리
 
