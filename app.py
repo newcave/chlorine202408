@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 st.title("잔류 염소 농도 예측 모델링 (EPA & Two-phase)")
 st.sidebar.header("모델 인풋 설정")
 
+im = Image.open("AI_Lab_logo.jpg")
+
 DOC = st.sidebar.slider("DOC (mg/L)", 0.0, 10.0, 3.0)
 NH3 = st.sidebar.slider("surrogate var (mg/L)", 0.0, 5.0, 0.5)
 Cl0 = st.sidebar.slider("현재농도 Cl0 (mg/L)", 0.0, 5.0, 1.5)
