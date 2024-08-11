@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image  # Image 모듈 임포트
 
 # 사용자 입력 받기
-st.title("잔류 염소 농도 예측 모델링기반 ML-based 이상예측 툴 (EPA & Two-phase)")
+st.title("잔류 염소 농도 예측 모델링기반 ML-based 이상예측 툴 (예시)")
 
 # 이미지 불러오기
 try:
@@ -16,7 +16,7 @@ except FileNotFoundError:
 st.sidebar.header("모델 인풋 설정")
 
 DOC = st.sidebar.slider("DOC (mg/L)", 0.0, 10.0, 5.0)
-NH3 = st.sidebar.slider("surrogate var (mg/L)", 0.0, 5.0, 0.5)
+NH3 = st.sidebar.slider("surrogate var. (mg/L)", 0.0, 5.0, 0.5)
 Cl0 = st.sidebar.slider("현재농도 Cl0 (mg/L)", 0.0, 5.0, 1.5)
 Temp = st.sidebar.slider("Temperature (°C)", 0.0, 35.0, 20.0)
 max_time = st.sidebar.slider("최대예측시간 (hrs)", 1, 24, 5)
@@ -60,7 +60,7 @@ C_EPA_high = np.where(time_range <= 5,
 # 그래프 그리기
 plt.figure(figsize=(10, 6))
 plt.plot(time_range, C_EPA, label='EPA Model (Original Input)', color='blue')
-plt.plot(time_range, C_Two_phase, label='Two-phase Model (Original Input)', color='green')
+#plt.plot(time_range, C_Two_phase, label='Two-phase Model (Original Input)', color='green')
 plt.plot(time_range, C_EPA_low, label='EPA Model Low (User Input)', color='orange', linestyle='--')
 plt.plot(time_range, C_EPA_high, label='EPA Model High (User Input)', color='red', linestyle='--')
 plt.xlabel('Time (hrs)')
