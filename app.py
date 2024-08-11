@@ -29,18 +29,8 @@ k2_low = st.sidebar.slider("AI High2 (k2최대 적정범위)", 0.01, 5.0, 0.1)
 k2_high = st.sidebar.slider("AI Low2 (k1최소 적정범위)", 0.01, 5.0, 0.5)
 
 # EPA 모델에서 k1, k2 계산
-k1_orig = np.exp(-0.442 + 0.889 * np.log(DOC) + 0.345 * np.log(7.6 * NH3) - 1.082 * np.log(Cl0) + 0.192 * np.log(Cl0 / DOC))
-k2_orig = np.exp(-4.817 + 1.187 * np.log(DOC) + 0.102 * np.log(7.6 * NH3) - 0.821 * np.log(Cl0) - 0.271 * np.log(Cl0 / DOC))
-
-# 15% 범위 내에서 랜덤 변동 추가 (0.2 단위로 조정)
-def apply_random_variation(value):
-    variation_factor = np.random.uniform(0.85, 1.15)  # 15% 변동 범위
-    varied_value = round(value * variation_factor, 1)  # 0.2 단위로 반올림
-    return varied_value
-
-# k1과 k2에 변동 적용
-k1_EPA = apply_random_variation(k1_orig)
-k2_EPA = apply_random_variation(k2_orig)
+k1_EPA = np.exp(-0.442 + 0.889 * np.log(DOC) + 0.345 * np.log(7.6 * NH3) - 1.082 * np.log(Cl0) + 0.192 * np.log(Cl0 / DOC))
+k2_EPA = np.exp(-4.817 + 1.187 * np.log(DOC) + 0.102 * np.log(7.6 * NH3) - 0.821 * np.log(Cl0) - 0.271 * np.log(Cl0 / DOC))
 
 # Two-phase 모델에서 A, k1, k2 계산
 A_Two_phase = np.exp(0.168 - 0.148 * np.log(Cl0 / DOC) + 0.29 * np.log(1) - 0.41 * np.log(Cl0) + 0.038 * np.log(1) + 0.0554 * np.log(NH3) + 0.185 * np.log(Temp))
