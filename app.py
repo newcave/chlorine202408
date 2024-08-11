@@ -55,6 +55,21 @@ C_EPA = np.where(time_range <= 5,
                  Cl0 * np.exp(-k1_EPA * time_range),
                  Cl0 * np.exp(5 * (k2_EPA - k1_EPA)) * np.exp(-k2_EPA * time_range))
 
+time_range = np.linspace(0, max_time, 100)
+
+# EPA 모델 (원래 입력값으로 계산)
+C_EPA = np.where(time_range <= 5,
+                 Cl0 * np.exp(-k1_EPA * time_range),
+                 Cl0 * np.exp(5 * (k2_EPA - k1_EPA)) * np.exp(-k2_EPA * time_range))
+
+# C_EPA에 15% 랜덤 변동 추가 (실운영처럼 보이게)
+def apply_random_variation_to_array(array):
+    variation_factors = np.random.uniform(0.85, 1.15, size=array.shape)
+    varied_array = array * variation_factors
+    return varied_array
+
+C_EPA_varied = apply_random_variation_to_array(C_EPA)
+
 # Two-phase 모델 (원래 입력값으로 계산)
 C_Two_phase = Cl0 * (A_Two_phase * np.exp(-k1_Two_phase * time_range) + (1 - A_Two_phase) * np.exp(-k2_Two_phase * time_range))
 
@@ -69,10 +84,10 @@ C_EPA_high = np.where(time_range <= 5,
 
 # 그래프 그리기
 plt.figure(figsize=(10, 6))
-plt.plot(time_range, C_EPA, label='Monitored Value (Original Input)', color='blue')
+plt.plot(time_range, C_EPA_varied, label='EPA Model (Varied)', color='blue')
 #plt.plot(time_range, C_Two_phase, label='Two-phase Model (Original Input)', color='green')
-plt.plot(time_range, C_EPA_low, label='EPA Model Low 최소범위 (AI-based)', color='orange', linestyle='--')
-plt.plot(time_range, C_EPA_high, label='EPA Model High 최대범위(AI-based)', color='red', linestyle='--')
+plt.plot(time_range, C_EPA_low, label='EPA Model Low (User Input)', color='orange', linestyle='--')
+plt.plot(time_range, C_EPA_high, label='EPA Model High (User Input)', color='red', linestyle='--')
 plt.xlabel('Time (hrs)')
 plt.ylabel('Residual Chlorine (mg/L)')
 plt.title('EPA and Two-phase Models of Residual Chlorine')
@@ -81,7 +96,7 @@ plt.grid(True)
 st.pyplot(plt)
 
 # 결과가 범위 내에 있는지 여부를 체크
-if np.all((C_EPA >= C_EPA_low) & (C_EPA <= C_EPA_high)):
+if np.all((C_EPA_varied >= C_EPA_low) & (C_EPA_varied <= C_EPA_high)):
     st.subheader("결과: 정상")
     st.markdown("<h1 style='text-align: center; color: green;'>정상</h1>", unsafe_allow_html=True)
 else:
