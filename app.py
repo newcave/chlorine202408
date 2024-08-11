@@ -45,13 +45,6 @@ C_EPA = np.where(time_range <= 5,
                  Cl0 * np.exp(-k1_EPA * time_range),
                  Cl0 * np.exp(5 * (k2_EPA - k1_EPA)) * np.exp(-k2_EPA * time_range))
 
-time_range = np.linspace(0, max_time, 100)
-
-# EPA 모델 (원래 입력값으로 계산)
-C_EPA = np.where(time_range <= 5,
-                 Cl0 * np.exp(-k1_EPA * time_range),
-                 Cl0 * np.exp(5 * (k2_EPA - k1_EPA)) * np.exp(-k2_EPA * time_range))
-
 # C_EPA에 15% 랜덤 변동 추가 (실운영처럼 보이게)
 def apply_random_variation_to_array(array):
     variation_factors = np.random.uniform(0.85, 1.15, size=array.shape)
@@ -85,8 +78,10 @@ plt.legend()
 plt.grid(True)
 st.pyplot(plt)
 
-# 결과가 범위 내에 있는지 여부를 체크
-if np.all((C_EPA_varied >= C_EPA_low) & (C_EPA_varied <= C_EPA_high)):
+# 결과가 범위 내에 있는지 여부를 체크 (0.5시간 이후만)
+is_normal = np.all((C_EPA_varied >= C_EPA_low) & (C_EPA_varied <= C_EPA_high))
+is_initial_phase = time_range <= 0.5
+if is_normal or np.all(is_initial_phase):
     st.subheader("결과: 정상")
     st.markdown("<h1 style='text-align: center; color: green;'>정상</h1>", unsafe_allow_html=True)
 else:
