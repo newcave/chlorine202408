@@ -45,13 +45,13 @@ C_EPA = np.where(time_range <= 5,
                  Cl0 * np.exp(-k1_EPA * time_range),
                  Cl0 * np.exp(5 * (k2_EPA - k1_EPA)) * np.exp(-k2_EPA * time_range))
 
-# C_EPA에 15% 랜덤 변동 추가 (실운영처럼 보이게)
-def apply_random_variation_to_array(array):
-    variation_factors = np.random.uniform(0.85, 1.15, size=array.shape)
+# 시간에 비례한 랜덤 변동 추가 (최대 20%)
+def apply_time_based_variation(array, max_time):
+    variation_factors = 1 + (time_range / max_time) * np.random.uniform(-0.2, 0.2, size=array.shape)
     varied_array = array * variation_factors
     return varied_array
 
-C_EPA_varied = apply_random_variation_to_array(C_EPA)
+C_EPA_varied = apply_time_based_variation(C_EPA, max_time)
 
 # Two-phase 모델 (원래 입력값으로 계산)
 C_Two_phase = Cl0 * (A_Two_phase * np.exp(-k1_Two_phase * time_range) + (1 - A_Two_phase) * np.exp(-k2_Two_phase * time_range))
