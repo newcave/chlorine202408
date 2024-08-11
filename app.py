@@ -67,7 +67,7 @@ C_EPA_high = np.where(time_range <= 5,
 
 # 그래프 그리기
 plt.figure(figsize=(10, 6))
-plt.plot(time_range, C_EPA_varied, label='EPA Model (Varied)', color='blue')
+plt.plot(time_range, C_EPA_varied, label='EPA Model (Varied)', color='blue', linewidth=2.5)
 #plt.plot(time_range, C_Two_phase, label='Two-phase Model (Original Input)', color='green')
 plt.plot(time_range, C_EPA_low, label='EPA Model Low (User Input)', color='orange', linestyle='--')
 plt.plot(time_range, C_EPA_high, label='EPA Model High (User Input)', color='red', linestyle='--')
