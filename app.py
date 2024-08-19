@@ -67,10 +67,10 @@ C_EPA_high = np.where(time_range <= 5,
 
 # 그래프 그리기
 plt.figure(figsize=(10, 6))
-plt.plot(time_range, 실측데이터(virtually generated), label='EPA Model (Varied)', color='blue', linewidth=2.5)
-#plt.plot(time_range, C_Two_phase, label='Two-phase Model (Original Input)', color='green')
-plt.plot(time_range, C_EPA_low, label='EPA Model Low (User Input)', color='orange', linestyle='--')
-plt.plot(time_range, C_EPA_high, label='EPA Model High (User Input)', color='red', linestyle='--')
+plt.plot(time_range, C_EPA_varied, label='실측데이터(virtually generated)', color='blue', linewidth=3.5)
+#plt.plot(time_range, C_Two_phase, label='Two-phase Model (Original Input)', color='green', inewidth=2.5)
+plt.plot(time_range, C_EPA_low, label='EPA Model Low (User Input)', color='orange', linestyle='--', inewidth=2.5)
+plt.plot(time_range, C_EPA_high, label='EPA Model High (User Input)', color='red', linestyle='--', inewidth=2.5)
 plt.xlabel('Time (hrs)')
 plt.ylabel('Residual Chlorine (mg/L)')
 plt.title('EPA and Two-phase Models of Residual Chlorine')
