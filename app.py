@@ -47,7 +47,7 @@ C_EPA = np.where(time_range <= 5,
 
 # 시간에 비례한 랜덤 변동 추가 (최대 20%)
 def apply_time_based_variation(array, max_time):
-    variation_factors = 1 + (time_range / max_time) * np.random.uniform(-0.2, 0.2, size=array.shape)
+    variation_factors = 1 + (time_range / max_time * 2) * np.random.uniform(-0.2, 0.4, size=array.shape)
     varied_array = array * variation_factors
     return varied_array
 
